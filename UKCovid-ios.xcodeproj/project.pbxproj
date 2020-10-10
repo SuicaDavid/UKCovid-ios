@@ -15,6 +15,9 @@
 		F127007825312BA800597750 /* UKCovid_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F127007625312BA800597750 /* UKCovid_ios.xcdatamodeld */; };
 		F127008325312BA800597750 /* UKCovid_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F127008225312BA800597750 /* UKCovid_iosTests.swift */; };
 		F127008E25312BA800597750 /* UKCovid_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F127008D25312BA800597750 /* UKCovid_iosUITests.swift */; };
+		F1D23B2625313296003663D4 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F1D23B2425313296003663D4 /* LICENSE */; };
+		F1D23B2725313296003663D4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F1D23B2525313296003663D4 /* README.md */; };
+		F1D23B2F2531333E003663D4 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F1D23B2E2531333E003663D4 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		F127008925312BA800597750 /* UKCovid-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UKCovid-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F127008D25312BA800597750 /* UKCovid_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UKCovid_iosUITests.swift; sourceTree = "<group>"; };
 		F127008F25312BA800597750 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F1D23B2425313296003663D4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		F1D23B2525313296003663D4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F1D23B2E2531333E003663D4 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +89,9 @@
 				F127008125312BA800597750 /* UKCovid-iosTests */,
 				F127008C25312BA800597750 /* UKCovid-iosUITests */,
 				F127006925312BA600597750 /* Products */,
+				F1D23B2425313296003663D4 /* LICENSE */,
+				F1D23B2525313296003663D4 /* README.md */,
+				F1D23B2E2531333E003663D4 /* .gitignore */,
 			);
 			sourceTree = "<group>";
 		};
@@ -239,7 +248,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1D23B2F2531333E003663D4 /* .gitignore in Resources */,
+				F1D23B2625313296003663D4 /* LICENSE in Resources */,
 				F127007325312BA800597750 /* Preview Assets.xcassets in Resources */,
+				F1D23B2725313296003663D4 /* README.md in Resources */,
 				F127007025312BA800597750 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
