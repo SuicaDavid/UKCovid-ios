@@ -10,8 +10,18 @@ import SwiftUI
 struct HomePage: View {
     
     var body: some View{
-        List {
-            
+        ScrollView {
+            LazyVStack {
+                ForEach(1...1000, id: \.self) { city in
+                    Text("\(city)")
+                }
+            }
         }
+    }
+}
+
+struct HomePage_Previews: PreviewProvider {
+    static var previews: some View {
+        HomePage()
     }
 }

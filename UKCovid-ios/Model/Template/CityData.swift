@@ -13,4 +13,11 @@ struct CityData: Identifiable {
     var cityDeathsToday: Int
     var cityTotalCases: Int
     var cityTotalDeaths: Int
+    var cityCasesRecord: [DailyCases]
+    var cityDeathsRecord: [DailyCases]
+}
+
+struct DailyCases {
+    var date: Date
+    var cases: Int
 }

@@ -116,6 +116,7 @@
 		F127006A25312BA600597750 /* UKCovid-ios */ = {
 			isa = PBXGroup;
 			children = (
+				F1A5A5872537B62400D1E863 /* Model */,
 				F127006B25312BA600597750 /* UKCovid_iosApp.swift */,
 				F127006D25312BA600597750 /* ContentView.swift */,
 				F16DFAB8253659E0006E7715 /* HomePage.swift */,
@@ -126,7 +127,6 @@
 				F127007125312BA800597750 /* Preview Content */,
 				F140894C25353C4A008E246F /* AppDelegate.swift */,
 				F140895425353E90008E246F /* SceneDelegate.swift */,
-				F1A5A57F2537B52100D1E863 /* CityData.swift */,
 			);
 			path = "UKCovid-ios";
 			sourceTree = "<group>";
@@ -155,6 +155,22 @@
 				F127008F25312BA800597750 /* Info.plist */,
 			);
 			path = "UKCovid-iosUITests";
+			sourceTree = "<group>";
+		};
+		F1A5A5872537B62400D1E863 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F1A5A5882537B62E00D1E863 /* Template */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F1A5A5882537B62E00D1E863 /* Template */ = {
+			isa = PBXGroup;
+			children = (
+				F1A5A57F2537B52100D1E863 /* CityData.swift */,
+			);
+			path = Template;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
