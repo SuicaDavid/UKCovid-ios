@@ -16,6 +16,7 @@ struct HomePage: View {
                     Text("\(city)")
                 }
             }
+            .listStyle(InsetGroupedListStyle())
         }
     }
 }

@@ -15,10 +15,10 @@
 		F127007825312BA800597750 /* UKCovid_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F127007625312BA800597750 /* UKCovid_ios.xcdatamodeld */; };
 		F127008325312BA800597750 /* UKCovid_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F127008225312BA800597750 /* UKCovid_iosTests.swift */; };
 		F127008E25312BA800597750 /* UKCovid_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F127008D25312BA800597750 /* UKCovid_iosUITests.swift */; };
-		F140894D25353C4A008E246F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F140894C25353C4A008E246F /* AppDelegate.swift */; };
-		F140895525353E90008E246F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F140895425353E90008E246F /* SceneDelegate.swift */; };
+		F12E1B76253BA85B00FEED42 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12E1B75253BA85B00FEED42 /* ViewExtension.swift */; };
 		F16DFAB9253659E0006E7715 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16DFAB8253659E0006E7715 /* HomePage.swift */; };
 		F1A5A5802537B52100D1E863 /* CityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A5A57F2537B52100D1E863 /* CityData.swift */; };
+		F1A5A58D25390F6A00D1E863 /* SearchPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A5A58C25390F6A00D1E863 /* SearchPage.swift */; };
 		F1D23B2625313296003663D4 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F1D23B2425313296003663D4 /* LICENSE */; };
 		F1D23B2725313296003663D4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F1D23B2525313296003663D4 /* README.md */; };
 		F1D23B2F2531333E003663D4 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F1D23B2E2531333E003663D4 /* .gitignore */; };
@@ -56,10 +56,10 @@
 		F127008925312BA800597750 /* UKCovid-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UKCovid-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F127008D25312BA800597750 /* UKCovid_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UKCovid_iosUITests.swift; sourceTree = "<group>"; };
 		F127008F25312BA800597750 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F140894C25353C4A008E246F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F140895425353E90008E246F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		F12E1B75253BA85B00FEED42 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		F16DFAB8253659E0006E7715 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
 		F1A5A57F2537B52100D1E863 /* CityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityData.swift; sourceTree = "<group>"; };
+		F1A5A58C25390F6A00D1E863 /* SearchPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPage.swift; sourceTree = "<group>"; };
 		F1D23B2425313296003663D4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F1D23B2525313296003663D4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F1D23B2E2531333E003663D4 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -116,17 +116,17 @@
 		F127006A25312BA600597750 /* UKCovid-ios */ = {
 			isa = PBXGroup;
 			children = (
+				F1D85108253B3BA30049F6C2 /* Source */,
+				F1D85107253B3B850049F6C2 /* Extension */,
+				F1A5A59425390F7900D1E863 /* View */,
 				F1A5A5872537B62400D1E863 /* Model */,
 				F127006B25312BA600597750 /* UKCovid_iosApp.swift */,
 				F127006D25312BA600597750 /* ContentView.swift */,
-				F16DFAB8253659E0006E7715 /* HomePage.swift */,
 				F127006F25312BA800597750 /* Assets.xcassets */,
 				F127007425312BA800597750 /* Persistence.swift */,
 				F127007925312BA800597750 /* Info.plist */,
 				F127007625312BA800597750 /* UKCovid_ios.xcdatamodeld */,
 				F127007125312BA800597750 /* Preview Content */,
-				F140894C25353C4A008E246F /* AppDelegate.swift */,
-				F140895425353E90008E246F /* SceneDelegate.swift */,
 			);
 			path = "UKCovid-ios";
 			sourceTree = "<group>";
@@ -157,6 +157,13 @@
 			path = "UKCovid-iosUITests";
 			sourceTree = "<group>";
 		};
+		F12E1B7A253BA9C500FEED42 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		F1A5A5872537B62400D1E863 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +178,31 @@
 				F1A5A57F2537B52100D1E863 /* CityData.swift */,
 			);
 			path = Template;
+			sourceTree = "<group>";
+		};
+		F1A5A59425390F7900D1E863 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F12E1B7A253BA9C500FEED42 /* Component */,
+				F16DFAB8253659E0006E7715 /* HomePage.swift */,
+				F1A5A58C25390F6A00D1E863 /* SearchPage.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F1D85107253B3B850049F6C2 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				F12E1B75253BA85B00FEED42 /* ViewExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		F1D85108253B3BA30049F6C2 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -305,14 +337,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1A5A58D25390F6A00D1E863 /* SearchPage.swift in Sources */,
 				F127007525312BA800597750 /* Persistence.swift in Sources */,
 				F1A5A5802537B52100D1E863 /* CityData.swift in Sources */,
 				F127006E25312BA600597750 /* ContentView.swift in Sources */,
-				F140894D25353C4A008E246F /* AppDelegate.swift in Sources */,
 				F127006C25312BA600597750 /* UKCovid_iosApp.swift in Sources */,
 				F127007825312BA800597750 /* UKCovid_ios.xcdatamodeld in Sources */,
+				F12E1B76253BA85B00FEED42 /* ViewExtension.swift in Sources */,
 				F16DFAB9253659E0006E7715 /* HomePage.swift in Sources */,
-				F140895525353E90008E246F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
