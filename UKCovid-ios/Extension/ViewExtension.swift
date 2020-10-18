@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct RoundBorder: View {
+
+    
     var width: CGFloat = 1
     var color: Color = Color.gray
     var borders: [Edge.Set] = [.top, .bottom,.leading, .trailing]
@@ -121,6 +123,9 @@ struct RoundBorder: View {
 
 extension View {
     func border(width: CGFloat = 1, edges: [Edge.Set] = [.all], color: Color = Color.gray, radius: CGFloat) -> some View {
-        overlay(RoundBorder(width: width, color: color, borders: edges, radius: radius))
+        cornerRadius(radius)
+            .background(
+            RoundBorder(width: width, color: color, borders: edges, radius: radius)
+        )
     }
 }

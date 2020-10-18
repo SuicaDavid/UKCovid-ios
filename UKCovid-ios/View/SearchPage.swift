@@ -17,15 +17,13 @@ struct SearchPage: View {
     private var frameWidth: CGFloat {
         isZommed ? .infinity : 300
     }
-    private var frameHeight: CGFloat {
-        isZommed ? 64 : 56
-    }
     private var searchLineHeight: CGFloat {
         isZommed ? 52 : 44
     }
     private var searchButtonIcon: String {
         isZommed ? "magnifyingglass.circle.fill" : "magnifyingglass.circle"
     }
+    private var searchBarBgColor: Color = Color.white
     private let columns = [
         GridItem(.adaptive(minimum: 200, maximum: 300)),
         GridItem(.adaptive(minimum: 200, maximum: 300))
@@ -33,34 +31,55 @@ struct SearchPage: View {
     private func getElementWidth(geometryWidth: CGFloat) -> CGFloat {
         return max(frameWidth, geometryWidth - defaultPadding)
     }
+    
+    private func getSearchBar() -> some View {
+        return HStack {
+            TextField("Sth", text: $searchText)
+                .disabled(!isZommed)
+                .frame(height: searchLineHeight)
+                .padding(.leading)
+                .textFieldStyle(PlainTextFieldStyle())
+                .onChange(of: searchText, perform: { value in
+                    print("searching \(value)")
+                })
+            Image(systemName: searchButtonIcon)
+                .frame(width: searchLineHeight, height: searchLineHeight)
+        }
+        .background(searchBarBgColor)
+        .border(radius: 10)
+        .matchedGeometryEffect(id: "searching bar", in: animation)
+        .padding()
+    }
+    
     var body: some View {
-        
-        VStack {
-            HStack {
-                TextField("Sth", text: $searchText)
-                    .disabled(!isZommed)
-                    .frame(height: searchLineHeight)
-                    .padding(.leading)
-                    .textFieldStyle(PlainTextFieldStyle())
-                    .onChange(of: searchText, perform: { value in
-                        print("searching \(value)")
-                    })
-                Image(systemName: "magnifyingglass.circle")
-                    .frame(width: searchLineHeight, height: searchLineHeight)
-            }
-            .overlay(
-                RoundedRectangle(cornerRadius: defaultPadding)
-                    .stroke(Color.gray, lineWidth: 1)
-            )
-            .matchedGeometryEffect(id: "searching bar", in: animation)
-            .padding()
-            .onTapGesture {
-                print("Click")
-                withAnimation(.spring()) {
-                    self.isZommed.toggle()
+        ZStack {
+            if isZommed {
+                VStack {
+                    getSearchBar()
+                    
+                    Spacer()
                 }
+                .zIndex(2.0)
+                .onTapGesture {
+                    print("Click")
+                    withAnimation(.spring()) {
+                        self.isZommed.toggle()
+                    }
+                }
+                .background(Color.black)
+                .edgesIgnoringSafeArea(.all)
+                .opacity(0.7)
             }
-            HStack {
+            VStack {
+                Spacer()
+                getSearchBar()
+                    .onTapGesture {
+                        print("Click")
+                        withAnimation(.spring()) {
+                            self.isZommed.toggle()
+                        }
+                    }
+                Spacer()
                 VStack {
                     Text("London")
                     LazyVGrid(columns: columns) {
@@ -76,8 +95,9 @@ struct SearchPage: View {
                     }
                 }
                 .border(edges: [.vertical], radius: 10)
+                .padding()
             }
-            .padding()
+            .zIndex(1.0)
         }
     }
 }
