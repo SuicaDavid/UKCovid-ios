@@ -7,29 +7,7 @@
 
 import SwiftUI
 
-//struct RoundBorder: View {
-//    var borders
-//    var body: some View {
-//        GeometryReader { geometry in
-//            Path { path in
-//                let width = min(geometry.size.width, geometry.size.height)
-//                let height = width * 0.75
-//                let spacing = width * 0.030
-//                let middle = width / 2
-//                let topWidth = 0.226 * width
-//                let topHeight = 0.488 * height
-//
-//                path.addLines([
-//                    CGPoint(x: middle, y: spacing),
-//                    CGPoint(x: middle - topWidth, y: topHeight - spacing),
-//                    CGPoint(x: middle, y: topHeight / 2 + spacing),
-//                    CGPoint(x: middle + topWidth, y: topHeight - spacing),
-//                    CGPoint(x: middle, y: spacing)
-//                ])
-//            }
-//        }
-//    }
-//}
+
 
 struct SearchPage: View {
     @Namespace private var animation
@@ -83,22 +61,21 @@ struct SearchPage: View {
                 }
             }
             HStack {
-                    VStack {
-                        Text("London")
-                        LazyVGrid(columns: columns) {
-                            ForEach(1...6, id: \.self) { item in
-                                VStack {
-                                    Text("Cases Today")
-                                        .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top)
-                                                    .foregroundColor(Color.gray), alignment: .bottom)
-                                    Text("1000")
-                                }
-                                .padding()
+                VStack {
+                    Text("London")
+                    LazyVGrid(columns: columns) {
+                        ForEach(1...6, id: \.self) { item in
+                            VStack {
+                                Text("Cases Today")
+                                    .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top)
+                                                .foregroundColor(Color.gray), alignment: .bottom)
+                                Text("1000")
                             }
+                            .padding()
                         }
                     }
-//                    .overlay(RoundBorder())
-            
+                }
+                .border(edges: [.vertical], radius: 10)
             }
             .padding()
         }
