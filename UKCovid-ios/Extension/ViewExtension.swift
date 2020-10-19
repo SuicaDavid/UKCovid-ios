@@ -48,20 +48,18 @@ struct RoundBorder: View {
         }
     }
     func getDrawingBorder() ->[Side] {
-        var drawingBorders = [Side]()
+        var drawingBordersSet: Set<Side> = []
         if borders.contains(.all) {
-            return [.top, .right,.bottom, .left]
-        } else if borders.contains(.vertical) {
-            return [.top,.bottom]
-        } else if borders.contains(.horizontal) {
-            return [.right, .left]
-        } else {
-            if borders.contains(.top) {drawingBorders.append(Side.top)}
-            if borders.contains(.trailing) {drawingBorders.append(Side.right)}
-            if borders.contains(.bottom) {drawingBorders.append(Side.bottom)}
-            if borders.contains(.leading) {drawingBorders.append(Side.left)}
+            drawingBordersSet.insert([.top, .right,.bottom, .left])
+            return Array(drawingBordersSet)
         }
-        return drawingBorders
+        if borders.contains(.vertical) {drawingBordersSet.insert([.top,.bottom])}
+        if borders.contains(.horizontal) {drawingBordersSet.insert([.right, .left])}
+        if borders.contains(.top) {drawingBordersSet.insert(Side.top)}
+        if borders.contains(.trailing) {drawingBordersSet.insert(Side.right)}
+        if borders.contains(.bottom) {drawingBordersSet.insert(Side.bottom)}
+        if borders.contains(.leading) {drawingBordersSet.insert(Side.left)}
+        return Array(drawingBordersSet)
     }
     
     func getStraightLine(to side: Side, in size: CGSize) -> [CGPoint] {
@@ -127,5 +125,39 @@ extension View {
             .background(
             RoundBorder(width: width, color: color, borders: edges, radius: radius)
         )
+    }
+}
+
+struct ViewExtension_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            Text("leading")
+                .padding()
+                .border(width: 1, edges: [.leading], color: Color.black, radius: 10)
+            Text("top")
+                .padding()
+                .border(width: 1, edges: [.top], color: Color.black, radius: 10)
+            Text("trailing")
+                .padding()
+                .border(width: 1, edges: [.trailing], color: Color.black, radius: 10)
+            Text("bottom")
+                .padding()
+                .border(width: 1, edges: [.bottom], color: Color.black, radius: 10)
+            Text("vertical")
+                .padding()
+                .border(width: 1, edges: [.vertical], color: Color.black, radius: 10)
+            Text("horizontal")
+                .padding()
+                .border(width: 1, edges: [.horizontal], color: Color.black, radius: 10)
+            Text("leading and vertical")
+                .padding()
+                .border(width: 1, edges: [.leading, .vertical], color: Color.black, radius: 10)
+            Text("all")
+                .padding()
+                .border(width: 1, edges: [.all], color: Color.black, radius: 10)
+            Text("all")
+                .padding()
+                .border(width: 1, edges: [.all], color: Color.black, radius: 0)
+        }
     }
 }

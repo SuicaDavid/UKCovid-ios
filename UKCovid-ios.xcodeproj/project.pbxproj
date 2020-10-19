@@ -16,12 +16,17 @@
 		F127008325312BA800597750 /* UKCovid_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F127008225312BA800597750 /* UKCovid_iosTests.swift */; };
 		F127008E25312BA800597750 /* UKCovid_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F127008D25312BA800597750 /* UKCovid_iosUITests.swift */; };
 		F12E1B76253BA85B00FEED42 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12E1B75253BA85B00FEED42 /* ViewExtension.swift */; };
+		F1510B55253CE4D4002C8242 /* ServerURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1510B54253CE4D4002C8242 /* ServerURL.swift */; };
+		F1510B5A253CE549002C8242 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1510B59253CE549002C8242 /* Api.swift */; };
+		F1510B65253CE92A002C8242 /* CitiesVirusData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1510B64253CE92A002C8242 /* CitiesVirusData.swift */; };
 		F16DFAB9253659E0006E7715 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16DFAB8253659E0006E7715 /* HomePage.swift */; };
 		F1A5A5802537B52100D1E863 /* CityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A5A57F2537B52100D1E863 /* CityData.swift */; };
 		F1A5A58D25390F6A00D1E863 /* SearchPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A5A58C25390F6A00D1E863 /* SearchPage.swift */; };
 		F1D23B2625313296003663D4 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F1D23B2425313296003663D4 /* LICENSE */; };
 		F1D23B2725313296003663D4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F1D23B2525313296003663D4 /* README.md */; };
 		F1D23B2F2531333E003663D4 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F1D23B2E2531333E003663D4 /* .gitignore */; };
+		F1DDE9DD253E32FB00D782BC /* CasesRankRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DDE9DC253E32FB00D782BC /* CasesRankRequest.swift */; };
+		F1F57A6E253E460900394005 /* SetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F57A6D253E460900394005 /* SetExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,12 +62,17 @@
 		F127008D25312BA800597750 /* UKCovid_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UKCovid_iosUITests.swift; sourceTree = "<group>"; };
 		F127008F25312BA800597750 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F12E1B75253BA85B00FEED42 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		F1510B54253CE4D4002C8242 /* ServerURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerURL.swift; sourceTree = "<group>"; };
+		F1510B59253CE549002C8242 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
+		F1510B64253CE92A002C8242 /* CitiesVirusData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesVirusData.swift; sourceTree = "<group>"; };
 		F16DFAB8253659E0006E7715 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
 		F1A5A57F2537B52100D1E863 /* CityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityData.swift; sourceTree = "<group>"; };
 		F1A5A58C25390F6A00D1E863 /* SearchPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPage.swift; sourceTree = "<group>"; };
 		F1D23B2425313296003663D4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F1D23B2525313296003663D4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F1D23B2E2531333E003663D4 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		F1DDE9DC253E32FB00D782BC /* CasesRankRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesRankRequest.swift; sourceTree = "<group>"; };
+		F1F57A6D253E460900394005 /* SetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +178,8 @@
 			isa = PBXGroup;
 			children = (
 				F1A5A5882537B62E00D1E863 /* Template */,
+				F1510B59253CE549002C8242 /* Api.swift */,
+				F1510B64253CE92A002C8242 /* CitiesVirusData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -176,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				F1A5A57F2537B52100D1E863 /* CityData.swift */,
+				F1DDE9DC253E32FB00D782BC /* CasesRankRequest.swift */,
 			);
 			path = Template;
 			sourceTree = "<group>";
@@ -194,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				F12E1B75253BA85B00FEED42 /* ViewExtension.swift */,
+				F1F57A6D253E460900394005 /* SetExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -201,6 +215,7 @@
 		F1D85108253B3BA30049F6C2 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				F1510B54253CE4D4002C8242 /* ServerURL.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -341,9 +356,14 @@
 				F127007525312BA800597750 /* Persistence.swift in Sources */,
 				F1A5A5802537B52100D1E863 /* CityData.swift in Sources */,
 				F127006E25312BA600597750 /* ContentView.swift in Sources */,
+				F1510B55253CE4D4002C8242 /* ServerURL.swift in Sources */,
+				F1F57A6E253E460900394005 /* SetExtension.swift in Sources */,
+				F1DDE9DD253E32FB00D782BC /* CasesRankRequest.swift in Sources */,
 				F127006C25312BA600597750 /* UKCovid_iosApp.swift in Sources */,
 				F127007825312BA800597750 /* UKCovid_ios.xcdatamodeld in Sources */,
 				F12E1B76253BA85B00FEED42 /* ViewExtension.swift in Sources */,
+				F1510B65253CE92A002C8242 /* CitiesVirusData.swift in Sources */,
+				F1510B5A253CE549002C8242 /* Api.swift in Sources */,
 				F16DFAB9253659E0006E7715 /* HomePage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

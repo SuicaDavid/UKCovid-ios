@@ -17,10 +17,8 @@ struct UKCovid_iosApp: App {
     }
     var body: some Scene {
         WindowGroup {
-//            ContentView()
-//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-//                .onContinueUserActivity(CSSearchableItemActionType, perform: handleSpotlight)
-            SearchPage()
+            ContentView()
+                .environmentObject(CitiesVirusData())
         }
         .onChange(of: scenePhase) { phase in
             switch phase {

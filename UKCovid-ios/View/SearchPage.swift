@@ -42,8 +42,10 @@ struct SearchPage: View {
                 .onChange(of: searchText, perform: { value in
                     print("searching \(value)")
                 })
+                .matchedGeometryEffect(id: "searching bar text field", in: animation)
             Image(systemName: searchButtonIcon)
                 .frame(width: searchLineHeight, height: searchLineHeight)
+                .matchedGeometryEffect(id: "searching bar icon", in: animation)
         }
         .background(searchBarBgColor)
         .border(radius: 10)
@@ -52,52 +54,63 @@ struct SearchPage: View {
     }
     
     var body: some View {
-        ZStack {
-            if isZommed {
-                VStack {
-                    getSearchBar()
-                    
-                    Spacer()
-                }
-                .zIndex(2.0)
-                .onTapGesture {
-                    print("Click")
-                    withAnimation(.spring()) {
-                        self.isZommed.toggle()
+        GeometryReader { geometry in
+            ZStack {
+                if isZommed {
+                    VStack {
+                        getSearchBar()
+                        Spacer()
                     }
-                }
-                .background(Color.black)
-                .edgesIgnoringSafeArea(.all)
-                .opacity(0.7)
-            }
-            VStack {
-                Spacer()
-                getSearchBar()
+                    .zIndex(3.0)
+                    
+                    VStack {
+                        Spacer()
+                    }
+                    .frame(width: geometry.size.width, height: .infinity)
+                    .offset(y: 0)
+                    .zIndex(2.0)
+                    .background(Color.black)
+                    .edgesIgnoringSafeArea(.all)
+                    .opacity(0.7)
                     .onTapGesture {
                         print("Click")
                         withAnimation(.spring()) {
                             self.isZommed.toggle()
                         }
                     }
-                Spacer()
+                }
                 VStack {
-                    Text("London")
-                    LazyVGrid(columns: columns) {
-                        ForEach(1...6, id: \.self) { item in
-                            VStack {
-                                Text("Cases Today")
-                                    .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top)
-                                                .foregroundColor(Color.gray), alignment: .bottom)
-                                Text("1000")
+                    Spacer()
+                    getSearchBar()
+                        .onTapGesture {
+                            print("Click")
+                            withAnimation(.spring()) {
+                                self.isZommed.toggle()
                             }
-                            .padding()
+                        }
+                    Spacer()
+                    VStack {
+                        Text("London")
+                            .padding(.top)
+                        LazyVGrid(columns: columns) {
+                            ForEach(1...4, id: \.self) { item in
+                                VStack {
+                                    Text("Cases Today")
+                                        .padding(.horizontal)
+                                        .padding(.bottom, 5)
+                                        .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top)
+                                                    .foregroundColor(Color.gray), alignment: .bottom)
+                                    Text("1000")
+                                }
+                                .padding()
+                            }
                         }
                     }
+                    .border(edges: [.vertical], radius: 10)
+                    .padding()
                 }
-                .border(edges: [.vertical], radius: 10)
-                .padding()
+                .zIndex(1.0)
             }
-            .zIndex(1.0)
         }
     }
 }
