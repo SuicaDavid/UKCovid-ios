@@ -106,7 +106,7 @@ struct SearchPage: View {
                             }
                         }
                     }
-                    .border(edges: [.vertical], radius: 10)
+                    .border(radius: 10, edges: [.vertical])
                     .padding()
                 }
                 .zIndex(1.0)

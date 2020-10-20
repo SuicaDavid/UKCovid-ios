@@ -13,24 +13,30 @@ struct ContentView: View {
     @State private var selection = 0
 
     var body: some View {
-        NavigationView {
-            TabView(selection: $selection) {
-                HomePage()
-                    .tabItem {
-                        VStack {
-                            Image(systemName: "house")
-                            Text("Home")
-                        }
-                    }
-                    .tag(0)
-                SearchPage()
-                    .tabItem {
-                        Image(systemName: "magnifyingglass")
-                        Text("Search")
-                    }
-                    .tag(1)
-            }
-        }
+//        NavigationView {
+//            TabView(selection: $selection) {
+//                HomePage()
+//                    .tabItem {
+//                        VStack {
+//                            Image(systemName: "house")
+//                            Text("Home")
+//                        }
+//                    }
+//                    .tag(0)
+//                SearchPage()
+//                    .tabItem {
+//                        Image(systemName: "magnifyingglass")
+//                        Text("Search")
+//                    }
+//                    .tag(1)
+//            }
+//        }
+        Text("left button")
+            .padding()
+            .border(radius: 10, width: 1, edges: [.all], color: Color.black, notCurveEdges: [.topRight, .bottomRight])
+        Text("right button")
+            .padding()
+            .border(radius: 10, width: 1, edges: [.all], color: Color.black, notCurveEdges: [.topLeft, .bottomLeft])
     }
 }
 

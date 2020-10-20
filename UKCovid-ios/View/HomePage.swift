@@ -16,7 +16,7 @@ struct HomePage: View {
     
     func getCasesSelectButton(name: String, selectedIndex: Int, isExtremity: Bool = false) -> some View {
         var edge: [Edge.Set] = [.all]
-        var radius = elementSpan
+        var radius: CGFloat = 0
         if isExtremity {
             if selectedIndex == 0 {
                 edge = [.leading]
@@ -29,7 +29,7 @@ struct HomePage: View {
         }
         return Text("Daily Cases")
             .padding(elementSpan)
-            .border(edges: edge, radius: radius)
+            .border(radius: radius, edges: edge)
     }
     
     func getCityCasesRow(cityDataIndex: Int) -> some View {
