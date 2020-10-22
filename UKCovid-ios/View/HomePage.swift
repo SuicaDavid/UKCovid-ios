@@ -9,32 +9,35 @@ import SwiftUI
 
 struct HomePage: View {
     @EnvironmentObject var citiesVirusData: CitiesVirusData
-    @State private var cityRankList: [CasesResult] = [CasesResult]()
-    @State private var selectedData: Int = 0
+    @State private var selectedTypeIndex: Int = 0
     
     private var elementSpan: CGFloat = 10
     
     func getCasesSelectButton(name: String, index: Int, isExtremity: Bool = false, geometry: GeometryProxy) -> some View {
-        var edge: [Edge.Set] = [.all]
+        let edge: [Edge.Set] = [.all]
         var ignoreEdge: [BorderEdge] = [.bottomLeft,.bottomRight,.topRight,.topLeft]
         var radius: CGFloat = 10
+        let isSelected = (index == selectedTypeIndex)
+        let backgroundColor = (isSelected ? Color.gray : Color.white)
+        let borderColor = (isSelected ? Color.blue : Color.gray)
         if isExtremity {
             if index == 0 {
-                edge = [.vertical, .leading, .trailing]
                 ignoreEdge = [.topRight, .bottomRight]
             } else if (index == -1) {
-                edge = [.vertical, .trailing]
                 ignoreEdge = [.topLeft, .bottomLeft]
             } else {
-                edge = []
                 radius = 0
             }
         }
         return HStack {
-            Text("Daily Cases")
+            Text(name)
+                .fontWeight(isSelected ? .bold : .none)
                 .frame(maxWidth: geometry.size.width/2)
                 .padding(.vertical,elementSpan)
-                .border(radius: radius, edges: edge, notCurveEdges: ignoreEdge)
+                .border(radius: radius, edges: edge, color: borderColor, notCurveEdges: ignoreEdge, backgroundColor: backgroundColor)
+        }
+        .onTapGesture {
+            selectedTypeIndex = index
         }
     }
     
@@ -42,9 +45,9 @@ struct HomePage: View {
         HStack {
             Text("\(cityDataIndex + 1):")
             HStack {
-                Text("\(cityRankList[cityDataIndex].areaName)")
+                Text("\(citiesVirusData.cityRankList[cityDataIndex].areaName)")
                 Spacer()
-                Text("\(cityRankList[cityDataIndex].newCases ?? 0)")
+                Text("\(citiesVirusData.cityRankList[cityDataIndex].newCases ?? 0)")
             }
         }
         .padding(elementSpan)
@@ -57,14 +60,14 @@ struct HomePage: View {
                     getCasesSelectButton(name: "Daily Death", index: -1, isExtremity: true, geometry: geometry)
                 }
                 .padding(elementSpan)
-                ForEach(0..<cityRankList.count, id: \.self) { index in
+                ForEach(0..<citiesVirusData.cityRankList.count, id: \.self) { index in
                     getCityCasesRow(cityDataIndex: index)
                 }
             }
             .listStyle(InsetGroupedListStyle())
             .onAppear {
                 citiesVirusData.fetchCasesRank { rank in
-                    cityRankList = rank
+                    print("load data finished")
                 }
             }
             .navigationBarHidden(true)

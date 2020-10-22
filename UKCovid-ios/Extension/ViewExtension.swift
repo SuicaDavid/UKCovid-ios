@@ -29,20 +29,32 @@ struct RoundBorder: View {
     var borders: [Edge.Set] = [.top, .bottom,.leading, .trailing]
     var notCurveEdges: [BorderEdge] = []
     var radius: CGFloat = 0
+    var backgroundColor: Color?
     private let processesOfDrawing: [Any] = [BorderEdge.topLeft, Side.top, BorderEdge.topRight, Side.right, BorderEdge.bottomRight, Side.bottom, BorderEdge.bottomLeft, Side.left]
     
     func drawBorders(at path: inout Path, in size: CGSize) {
         let drawingBorders = getDrawingBorder()
         let drawingEdges = getDrawingEdge(when: drawingBorders)
-        path.move(to: CGPoint(x: 0, y: 0))
+        var currentPoint: CGPoint = CGPoint(x: 0, y: 0) // record the end point of last line in order to check if move function is necessary
+        var isIgnoreStraight: Bool = false // when border was ignored, use move function to jump to other line start point
+        path.move(to: currentPoint)
         for process in processesOfDrawing {
             if process is Side {
                 let side = process as! Side
                 if drawingBorders.contains(side) {
                     let points: [CGPoint] = identifyExtremityPoint(to: side, at: drawingEdges, in: size)
                     if points.count > 0{
-                        path.addLines(points)
+                        let startPoint = points[0]
+                        let endPoint = points[1]
+                        if currentPoint != startPoint && isIgnoreStraight == true {
+                            path.move(to: startPoint)
+                        }
+                        path.addLine(to: endPoint)
+                        currentPoint = endPoint
+                        isIgnoreStraight = false
                     }
+                } else {
+                    isIgnoreStraight = true
                 }
             } else if process is BorderEdge {
                 let edge: BorderEdge = process as! BorderEdge
@@ -51,7 +63,9 @@ struct RoundBorder: View {
                     let startPoint = points[0]
                     let endPoint = points[1]
                     let controlPoint = points[2]
-                    path.move(to: startPoint)
+                    if currentPoint != startPoint {
+                        path.move(to: startPoint)
+                    }
                     path.addQuadCurve(to: endPoint, control: controlPoint)
                 }
             }
@@ -82,14 +96,9 @@ struct RoundBorder: View {
     func identifyExtremityPoint(to side: Side, at drawingEdges: [BorderEdge], in size: CGSize) -> [CGPoint] {
         let edgesAtSide = drawingEdges.filter {return $0.rawValue.contains(side.rawValue)}
         if edgesAtSide.count == 2 {
-            print("=====")
-            edgesAtSide.forEach { print($0.rawValue) }
-            print(side.rawValue)
-            print(getCurlLinePoints(to: edgesAtSide[0], in: size))
             let edgeName = edgesAtSide[0].rawValue
             let range = edgeName.range(of: side.rawValue)
             let index = edgeName.distance(from: edgeName.startIndex, to: range!.lowerBound)
-            print(index)
             if index == 0 { // the second element is the curl angle
                 return [getCurlLinePoints(to: edgesAtSide[1], in: size)[1], getCurlLinePoints(to: edgesAtSide[0], in: size)[0]]
             } else {
@@ -166,23 +175,29 @@ struct RoundBorder: View {
         }
     }
     
-
+    func drawingPath(in geometry: GeometryProxy) -> Path {
+        Path { path in
+            drawBorders(at: &path, in: geometry.size)
+        }
+    }
     
     var body: some View {
         GeometryReader { geometry in
-            Path { path in
-                drawBorders(at: &path, in: geometry.size)
+            drawingPath(in: geometry)
+                .stroke(color, lineWidth: width)
+            if borders == [.all] && (backgroundColor != nil) {
+                drawingPath(in: geometry)
+                    .fill(backgroundColor!)
             }
-            .stroke(color, lineWidth: width)
         }
     }
 }
 
 extension View {
-    func border(radius: CGFloat, width: CGFloat = 1, edges: [Edge.Set] = [.all], color: Color = Color.gray, notCurveEdges: [BorderEdge] = []) -> some View {
+    func border(radius: CGFloat, width: CGFloat = 1, edges: [Edge.Set] = [.all], color: Color = Color.gray, notCurveEdges: [BorderEdge] = [], backgroundColor: Color? = nil) -> some View {
         cornerRadius(radius)
             .background(
-                RoundBorder(width: width, color: color, borders: edges, notCurveEdges: notCurveEdges, radius: radius)
+                RoundBorder(width: width, color: color, borders: edges, notCurveEdges: notCurveEdges, radius: radius, backgroundColor: backgroundColor)
         )
     }
 }
@@ -190,36 +205,66 @@ extension View {
 struct ViewExtension_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            Text("leading")
-                .padding()
-                .border(radius: 10, width: 1, edges: [.leading], color: Color.black)
-            Text("top")
-                .padding()
-                .border(radius: 10, width: 1, edges: [.top], color: Color.black)
-            Text("trailing")
-                .padding()
-                .border(radius: 10, width: 1, edges: [.trailing], color: Color.black)
-            Text("bottom")
-                .padding()
-                .border(radius: 10, width: 1, edges: [.bottom], color: Color.black)
-            Text("vertical")
-                .padding()
-                .border(radius: 10, width: 1, edges: [.vertical], color: Color.black)
-            Text("horizontal")
-                .padding()
-                .border(radius: 10, width: 1, edges: [.horizontal], color: Color.black)
-            Text("leading and vertical")
-                .padding()
-                .border(radius: 10, width: 1, edges: [.leading, .vertical], color: Color.black)
-            Text("all")
-                .padding()
-                .border(radius: 10, width: 1, edges: [.all], color: Color.black)
-            Text("left button")
-                .padding()
-                .border(radius: 10, width: 1, edges: [.all], color: Color.black, notCurveEdges: [.topRight, .bottomRight])
-            Text("right button")
-                .padding()
-                .border(radius: 10, width: 1, edges: [.all], color: Color.black, notCurveEdges: [.topLeft, .bottomLeft])
+            HStack {
+                Text("leading")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.leading], color: Color.black, backgroundColor: Color.red)
+                Text("top")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.top], color: Color.black, backgroundColor: Color.red)
+                Text("trailing")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.trailing], color: Color.black, backgroundColor: Color.red)
+                Text("vertical")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.vertical], color: Color.black, backgroundColor: Color.red)
+            }
+            HStack {
+                Text("top and left")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.top, .leading], color: Color.black, notCurveEdges: [.topRight, .bottomLeft], backgroundColor: Color.red)
+                Text("top and right")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.top, .trailing], color: Color.black, notCurveEdges: [.topLeft, .bottomRight], backgroundColor: Color.red)
+                Text("right and bottom")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.trailing, .bottom], color: Color.black, notCurveEdges: [.topRight, .bottomLeft], backgroundColor: Color.red)
+            }
+            HStack {
+                Text("horizontal")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.horizontal], color: Color.black, backgroundColor: Color.red)
+                Text("vertical")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.vertical], color: Color.black, backgroundColor: Color.red)
+            }
+            HStack {
+                Text("leading and vertical")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.leading, .vertical], color: Color.black, backgroundColor: Color.red)
+                Text("leading and vertical")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.leading, .vertical], color: Color.black, notCurveEdges: [.topRight, .bottomRight],  backgroundColor: Color.red)
+            }
+            HStack {
+                Text("top and horizontal")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.top, .horizontal], color: Color.black, notCurveEdges: [.topLeft, .topRight], backgroundColor: Color.red)
+                Text("bottom and horizontal")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.bottom, .horizontal], color: Color.black, notCurveEdges: [.bottomLeft, .bottomRight],  backgroundColor: Color.red)
+            }
+            HStack {
+                Text("all")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.all], color: Color.black, backgroundColor: Color.red)
+                Text("left button")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.all], color: Color.black, notCurveEdges: [.topRight, .bottomRight], backgroundColor: Color.red)
+                Text("right button")
+                    .padding()
+                    .border(radius: 10, width: 1, edges: [.all], color: Color.black, notCurveEdges: [.topLeft, .bottomLeft], backgroundColor: Color.red)
+            }
         }
     }
 }

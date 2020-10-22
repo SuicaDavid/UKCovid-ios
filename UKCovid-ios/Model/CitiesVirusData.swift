@@ -8,7 +8,7 @@
 import SwiftUI
 
 class  CitiesVirusData: ObservableObject {
-    @State var cityRankList = [CasesResult]()
+    @Published var cityRankList = [CasesResult]()
     
     public func fetchCasesRank(callback: @escaping ([CasesResult])->Void) {
         guard let url = URL(string: Api.newCases + "?sortby=\("new_cases")&order=\(1)&numperpage=\(15)&pageno=\(1)") else {
