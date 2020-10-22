@@ -44,11 +44,15 @@ struct HomePage: View {
     func getCityCasesRow(cityDataIndex: Int) -> some View {
         HStack {
             Text("\(cityDataIndex + 1):")
-            HStack {
-                Text("\(citiesVirusData.cityRankList[cityDataIndex].areaName)")
-                Spacer()
-                Text("\(citiesVirusData.cityRankList[cityDataIndex].newCases ?? 0)")
+            NavigationLink(destination: CityDetail(cityData: citiesVirusData.cityRankList[cityDataIndex])) {
+                HStack {
+                    Text("\(citiesVirusData.cityRankList[cityDataIndex].areaName)")
+                    Spacer()
+                    Text("\(citiesVirusData.cityRankList[cityDataIndex].cityCasesToday)")
+                }
+                .foregroundColor(.black)
             }
+            .buttonStyle(PlainButtonStyle())
         }
         .padding(elementSpan)
     }
