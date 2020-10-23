@@ -8,6 +8,9 @@
 import SwiftUI
 
 class Api {
-    public static let newCases = ServerURL + "/newcases"
-    public static let searchCases = ServerURL + "/newcases"
+    enum path: String {
+        case newCases = "/newcases"
+    }
+    public static let newCases = ServerURL + path.newCases.rawValue
+    public static let searchCases = ServerURL + path.newCases.rawValue
 }

@@ -5,14 +5,17 @@
 //  Created by Suica on 16/10/2020.
 //
 
+import MapKit
 import SwiftUI
 
 
-
 struct SearchPage: View {
+    @ObservedObject var locationManager = LocationManager()
+    @EnvironmentObject var citiesVirusData: CitiesVirusData
     @Namespace private var animation
     @State private var isZommed: Bool = false
     @State private var searchText: String = ""
+    @State private var currentCityData: CityData?
     private var defaultPadding: CGFloat = 10
     private var frameWidth: CGFloat {
         isZommed ? .infinity : 300
@@ -32,9 +35,20 @@ struct SearchPage: View {
         return max(frameWidth, geometryWidth - defaultPadding)
     }
     
+    private func getGeolocation() {
+        locationManager.getPostcodeFromLocation { _ in
+            if let postcode = locationManager.getPostcode() {
+                print(postcode)
+                citiesVirusData.fetchCaseByPostcode(postcode: postcode) { currentCityData in
+                    self.currentCityData = currentCityData
+                }
+            }
+        }
+    }
+    
     private func getSearchBar() -> some View {
         return HStack {
-            TextField("Sth", text: $searchText)
+            TextField("Input the city name / postcode", text: $searchText)
                 .disabled(!isZommed)
                 .frame(height: searchLineHeight)
                 .padding(.leading)
@@ -89,27 +103,25 @@ struct SearchPage: View {
                             }
                         }
                     Spacer()
-                    VStack {
-                        Text("London")
-                            .padding(.top)
-                        LazyVGrid(columns: columns) {
-                            ForEach(1...4, id: \.self) { item in
-                                VStack {
-                                    Text("Cases Today")
-                                        .padding(.horizontal)
-                                        .padding(.bottom, 5)
-                                        .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top)
-                                                    .foregroundColor(Color.gray), alignment: .bottom)
-                                    Text("1000")
-                                }
-                                .padding()
+                    if currentCityData != nil {
+                        CasesDetail(cityData: Binding($currentCityData)!)
+                    } else {
+                        VStack {
+                            Button(action: {locationManager.getAuthorizationAgain()}) {
+                                Text("Change the setting of location")
+                                    .foregroundColor(.white)
+                                
                             }
+                            .padding()
+                            .border(radius: 10, width: 1, color: .blue, backgroundColor: .blue)
+                            .padding(.bottom, 70)
                         }
                     }
-                    .border(radius: 10, edges: [.vertical])
-                    .padding()
                 }
                 .zIndex(1.0)
+            }
+            .onAppear {
+                getGeolocation()
             }
         }
     }
