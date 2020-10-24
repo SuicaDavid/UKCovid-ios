@@ -75,50 +75,53 @@ struct SearchPage: View {
                         getSearchBar()
                         Spacer()
                     }
-                    .zIndex(3.0)
-                    
-                    VStack {
-                        Spacer()
-                    }
-                    .frame(width: geometry.size.width, height: .infinity)
-                    .offset(y: 0)
-                    .zIndex(2.0)
-                    .background(Color.black)
-                    .edgesIgnoringSafeArea(.all)
-                    .opacity(0.7)
+                    .frame(width: geometry.size.width)
+                    .background(
+                        Rectangle()
+                            .fill(Color.white)
+                            .edgesIgnoringSafeArea(.all)
+                    )
                     .onTapGesture {
                         print("Click")
                         withAnimation(.spring()) {
                             self.isZommed.toggle()
                         }
                     }
-                }
+                    .zIndex(2.0)
+                    
+                    Spacer()
+                } else {
                 VStack {
-                    Spacer()
-                    getSearchBar()
-                        .onTapGesture {
-                            print("Click")
-                            withAnimation(.spring()) {
-                                self.isZommed.toggle()
+                    HStack(alignment: .center) {
+                        getSearchBar()
+                            .onTapGesture {
+                                print("Click")
+                                withAnimation(.spring()) {
+                                    self.isZommed.toggle()
+                                }
                             }
-                        }
-                    Spacer()
-                    if currentCityData != nil {
-                        CasesDetail(cityData: Binding($currentCityData)!)
-                    } else {
-                        VStack {
-                            Button(action: {locationManager.getAuthorizationAgain()}) {
-                                Text("Change the setting of location")
-                                    .foregroundColor(.white)
-                                
+                    }
+                    .frame(minHeight: geometry.size.height * 0.5)
+                    HStack {
+                        if currentCityData != nil {
+                            CasesDetail(cityData: Binding($currentCityData)!)
+                        } else {
+                            VStack {
+                                Button(action: {locationManager.getAuthorizationAgain()}) {
+                                    Text("Change the setting of location")
+                                        .foregroundColor(.white)
+                                    
+                                }
+                                .padding()
+                                .border(radius: 10, width: 1, color: .blue, backgroundColor: .blue)
+                                .padding(.bottom, 70)
                             }
-                            .padding()
-                            .border(radius: 10, width: 1, color: .blue, backgroundColor: .blue)
-                            .padding(.bottom, 70)
                         }
                     }
+                    .frame(minHeight: geometry.size.height * 0.5)
                 }
                 .zIndex(1.0)
+                }
             }
             .onAppear {
                 getGeolocation()
