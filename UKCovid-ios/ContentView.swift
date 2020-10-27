@@ -14,30 +14,40 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            TabView(selection: $selection) {
-                HomePage()
-                    .tabItem {
-                        VStack {
-                            Image(systemName: "house")
-                            Text("Home")
+            ZStack {
+                TabView(selection: $selection) {
+                    HomePage()
+                        .tabItem {
+                            VStack {
+                                Image(systemName: "house")
+                                Text("Home")
+                            }
                         }
-                    }
-                    .tag(0)
-                SearchPage()
-                    .tabItem {
-                        Image(systemName: "magnifyingglass")
-                        Text("Search")
-                    }
-                    .tag(1)
+                        .tag(0)
+                    SearchPage()
+                        .tabItem {
+                            Image(systemName: "magnifyingglass")
+                            Text("Search")
+                        }
+                        .tag(1)
+                }
+                if citiesVirusData.isLoading {
+                    ProgressView("Loading")
+                        .frame(width: 180, height: 150)
+                        .padding()
+                        .border(radius: 10, backgroundColor: Color.white)
+                }
             }
+        }
+        .onAppear {
+            citiesVirusData.initCitiesVirusData()
         }
     }
 }
 
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-        }
+        ContentView().environmentObject(CitiesVirusData())
     }
 }

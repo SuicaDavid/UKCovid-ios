@@ -10,6 +10,11 @@ import SwiftUI
 struct HomePage: View {
     @EnvironmentObject var citiesVirusData: CitiesVirusData
     @State private var selectedTypeIndex: Int = 0
+    private var dataList: [CityData] {
+        selectedTypeIndex == 0 ? citiesVirusData.cityCasesRankList : citiesVirusData.cityDeathsRankList
+    }
+    
+
     
     private var elementSpan: CGFloat = 10
     
@@ -42,13 +47,21 @@ struct HomePage: View {
     }
     
     func getCityCasesRow(cityDataIndex: Int) -> some View {
-        HStack {
+        var showingData: Int = 0
+        let destination = CityDetail(cityData: dataList[cityDataIndex])
+        let areaName = dataList[cityDataIndex].areaName
+        if selectedTypeIndex == 0 {
+            showingData = dataList[cityDataIndex].cityCasesToday
+        } else if selectedTypeIndex == -1 {
+            showingData = dataList[cityDataIndex].cityDeathsToday
+        }
+        return HStack {
             Text("\(cityDataIndex + 1):")
-            NavigationLink(destination: CityDetail(cityData: citiesVirusData.cityRankList[cityDataIndex])) {
+            NavigationLink(destination: destination) {
                 HStack {
-                    Text("\(citiesVirusData.cityRankList[cityDataIndex].areaName)")
+                    Text("\(areaName)")
                     Spacer()
-                    Text("\(citiesVirusData.cityRankList[cityDataIndex].cityCasesToday)")
+                    Text("\(showingData)")
                 }
                 .foregroundColor(.black)
             }
@@ -58,23 +71,20 @@ struct HomePage: View {
     }
     var body: some View {
         GeometryReader { geometry in
-            List {
-                HStack(spacing: 0) {
-                    getCasesSelectButton(name: "Daily Cases", index: 0, isExtremity: true, geometry: geometry)
-                    getCasesSelectButton(name: "Daily Death", index: -1, isExtremity: true, geometry: geometry)
+            ZStack {
+                List {
+                    HStack(spacing: 0) {
+                        getCasesSelectButton(name: "Daily Cases", index: 0, isExtremity: true, geometry: geometry)
+                        getCasesSelectButton(name: "Daily Death", index: -1, isExtremity: true, geometry: geometry)
+                    }
+                    .padding(elementSpan)
+                    ForEach(0..<dataList.count, id: \.self) { index in
+                        getCityCasesRow(cityDataIndex: index)
+                    }
                 }
-                .padding(elementSpan)
-                ForEach(0..<citiesVirusData.cityRankList.count, id: \.self) { index in
-                    getCityCasesRow(cityDataIndex: index)
-                }
+                .listStyle(InsetGroupedListStyle())
+                .navigationBarHidden(true)
             }
-            .listStyle(InsetGroupedListStyle())
-            .onAppear {
-                citiesVirusData.fetchCasesRank { rank in
-                    print("load data finished")
-                }
-            }
-            .navigationBarHidden(true)
         }
     }
 }

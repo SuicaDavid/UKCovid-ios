@@ -72,9 +72,14 @@ class LocationManager: NSObject, ObservableObject {
             placemarks, error -> Void in
             // Place details
             guard let placeMark = placemarks?.first else { return }
+            print("====")
+            print(placeMark)
             self.currentLocation = placeMark
             callback(placeMark)
         })
+    }
+    public func checkExistingLocation() -> Bool {
+        return self.currentLocation != nil
     }
     public func getPostcode() -> String? {
         if currentLocation?.postalCode != nil {

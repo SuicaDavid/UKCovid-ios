@@ -16,7 +16,7 @@ struct CityDetail: View {
     ]
     var body: some View {
         VStack {
-            CasesDetail(cityData: $cityData)
+            CasesDetail(cityData: $cityData, hasMoreDetail: true)
             Spacer()
         }
     }

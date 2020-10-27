@@ -10,12 +10,10 @@ import SwiftUI
 
 
 struct SearchPage: View {
-    @ObservedObject var locationManager = LocationManager()
     @EnvironmentObject var citiesVirusData: CitiesVirusData
     @Namespace private var animation
     @State private var isZommed: Bool = false
     @State private var searchText: String = ""
-    @State private var currentCityData: CityData?
     private var defaultPadding: CGFloat = 10
     private var frameWidth: CGFloat {
         isZommed ? .infinity : 300
@@ -35,16 +33,13 @@ struct SearchPage: View {
         return max(frameWidth, geometryWidth - defaultPadding)
     }
     
-    private func getGeolocation() {
-        locationManager.getPostcodeFromLocation { _ in
-            if let postcode = locationManager.getPostcode() {
-                print(postcode)
-                citiesVirusData.fetchCaseByPostcode(postcode: postcode) { currentCityData in
-                    self.currentCityData = currentCityData
-                }
-            }
+    private func getPostcodeData(postcode: String) {
+        citiesVirusData.startLoading()
+        citiesVirusData.fetchCaseByPostcode(postcode: postcode) {_ in
+            citiesVirusData.stopLoading()
         }
     }
+
     
     private func getSearchBar() -> some View {
         return HStack {
@@ -103,15 +98,18 @@ struct SearchPage: View {
                     }
                     .frame(minHeight: geometry.size.height * 0.5)
                     HStack {
-                        if currentCityData != nil {
-                            CasesDetail(cityData: Binding($currentCityData)!)
+                        if citiesVirusData.currentCityData != nil {
+                            CasesDetail(cityData: Binding($citiesVirusData.currentCityData)!)
+                        } else if citiesVirusData.locationManager.getPostcode() != nil {
+                            Button("Get the data of \(citiesVirusData.locationManager.getPostcode() ?? "NaN")") {
+                                getPostcodeData(postcode: citiesVirusData.locationManager.getPostcode()!)
+                            }
+                        } else if citiesVirusData.locationManager.checkExistingLocation() {
+                            Text("Your current locatioin was not supported")
                         } else {
                             VStack {
-                                Button(action: {locationManager.getAuthorizationAgain()}) {
-                                    Text("Change the setting of location")
-                                        .foregroundColor(.white)
-                                    
-                                }
+                                Button("Change the setting of location") {citiesVirusData.locationManager.getAuthorizationAgain()}
+                                .foregroundColor(.white)
                                 .padding()
                                 .border(radius: 10, width: 1, color: .blue, backgroundColor: .blue)
                                 .padding(.bottom, 70)
@@ -123,9 +121,6 @@ struct SearchPage: View {
                 .zIndex(1.0)
                 }
             }
-            .onAppear {
-                getGeolocation()
-            }
         }
     }
 }
@@ -133,5 +128,6 @@ struct SearchPage: View {
 struct SearchPage_Previews: PreviewProvider {
     static var previews: some View {
         SearchPage()
+            .environmentObject(CitiesVirusData())
     }
 }
