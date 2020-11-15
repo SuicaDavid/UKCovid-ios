@@ -14,6 +14,7 @@ struct SearchPage: View {
     @Namespace private var animation
     @State private var isZommed: Bool = false
     @State private var searchText: String = ""
+    @State private var isDisplaying: Bool = false
     private var defaultPadding: CGFloat = 10
     private var frameWidth: CGFloat {
         isZommed ? .infinity : 300
@@ -33,17 +34,19 @@ struct SearchPage: View {
         return max(frameWidth, geometryWidth - defaultPadding)
     }
     
-    private func getPostcodeData(postcode: String) {
+    private func getPostcodeData(postcode: String, success: (()->Void)?) {
         citiesVirusData.startLoading()
         citiesVirusData.fetchCaseByPostcode(postcode: postcode) {_ in
             citiesVirusData.stopLoading()
+            success?()
         }
     }
-
+    
+    
     
     private func getSearchBar() -> some View {
         return HStack {
-            TextField("Input the city name / postcode", text: $searchText)
+            TextField("Input the city postcode", text: $searchText)
                 .disabled(!isZommed)
                 .frame(height: searchLineHeight)
                 .padding(.leading)
@@ -55,6 +58,13 @@ struct SearchPage: View {
             Image(systemName: searchButtonIcon)
                 .frame(width: searchLineHeight, height: searchLineHeight)
                 .matchedGeometryEffect(id: "searching bar icon", in: animation)
+                .onTapGesture {
+                    getPostcodeData(postcode: self.searchText) {
+                        if citiesVirusData.currentCityData != nil {
+                            self.isDisplaying.toggle()
+                        }
+                    }
+                }
         }
         .background(searchBarBgColor)
         .border(radius: 10)
@@ -68,6 +78,9 @@ struct SearchPage: View {
                 if isZommed {
                     VStack {
                         getSearchBar()
+                            .onTapGesture {
+                                print("click bar")
+                            }
                         Spacer()
                     }
                     .frame(width: geometry.size.width)
@@ -86,39 +99,49 @@ struct SearchPage: View {
                     
                     Spacer()
                 } else {
-                VStack {
-                    HStack(alignment: .center) {
-                        getSearchBar()
-                            .onTapGesture {
-                                print("Click")
-                                withAnimation(.spring()) {
-                                    self.isZommed.toggle()
+                    VStack {
+                        HStack(alignment: .center) {
+                            getSearchBar()
+                                .onTapGesture {
+                                    print("Click")
+                                    withAnimation(.spring()) {
+                                        self.isZommed.toggle()
+                                    }
+                                }
+                        }
+                        .frame(minHeight: geometry.size.height * 0.5)
+                        HStack {
+                            if citiesVirusData.currentCityData != nil {
+                                CasesDetail(cityData: Binding($citiesVirusData.currentCityData)!)
+                            } else if citiesVirusData.locationManager.getPostcode() != nil {
+                                Button("Get the data of \(citiesVirusData.locationManager.getPostcode() ?? "NaN")") {
+                                    getPostcodeData(postcode: citiesVirusData.locationManager.getPostcode()!) {
+                                        print(citiesVirusData.currentCityData ?? "")
+                                    }
+                                }
+                            } else if citiesVirusData.locationManager.checkExistingLocation() {
+                                Text("Your current locatioin was not supported")
+                            } else {
+                                VStack {
+                                    Button("Change the setting of location") {citiesVirusData.locationManager.getAuthorizationAgain()}
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .border(radius: 10, width: 1, color: .blue, backgroundColor: .blue)
+                                        .padding(.bottom, 70)
                                 }
                             }
-                    }
-                    .frame(minHeight: geometry.size.height * 0.5)
-                    HStack {
-                        if citiesVirusData.currentCityData != nil {
-                            CasesDetail(cityData: Binding($citiesVirusData.currentCityData)!)
-                        } else if citiesVirusData.locationManager.getPostcode() != nil {
-                            Button("Get the data of \(citiesVirusData.locationManager.getPostcode() ?? "NaN")") {
-                                getPostcodeData(postcode: citiesVirusData.locationManager.getPostcode()!)
-                            }
-                        } else if citiesVirusData.locationManager.checkExistingLocation() {
-                            Text("Your current locatioin was not supported")
-                        } else {
-                            VStack {
-                                Button("Change the setting of location") {citiesVirusData.locationManager.getAuthorizationAgain()}
-                                .foregroundColor(.white)
-                                .padding()
-                                .border(radius: 10, width: 1, color: .blue, backgroundColor: .blue)
-                                .padding(.bottom, 70)
-                            }
                         }
+                        .frame(minHeight: geometry.size.height * 0.5)
                     }
-                    .frame(minHeight: geometry.size.height * 0.5)
+                    .zIndex(1.0)
                 }
-                .zIndex(1.0)
+            }
+            .navigationBarHidden(true)
+            .sheet(isPresented: $isDisplaying) {
+                VStack {
+                    Spacer()
+                    CityDetail(cityData: citiesVirusData.currentCityData!)
+                    Spacer()
                 }
             }
         }
