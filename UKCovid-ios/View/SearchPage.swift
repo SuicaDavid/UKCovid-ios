@@ -25,7 +25,7 @@ struct SearchPage: View {
     private var searchButtonIcon: String {
         isZommed ? "magnifyingglass.circle.fill" : "magnifyingglass.circle"
     }
-    private var searchBarBgColor: Color = Color.white
+    private var searchBarBgColor: Color = Color.input
     private let columns = [
         GridItem(.adaptive(minimum: 200, maximum: 300)),
         GridItem(.adaptive(minimum: 200, maximum: 300))
@@ -36,7 +36,7 @@ struct SearchPage: View {
     
     private func getPostcodeData(postcode: String, success: (()->Void)?) {
         citiesVirusData.startLoading()
-        citiesVirusData.fetchCaseByPostcode(postcode: postcode) {_ in
+        citiesVirusData.fetchCaseByPostcode(postcode: postcode) {
             citiesVirusData.stopLoading()
             success?()
         }
@@ -47,7 +47,7 @@ struct SearchPage: View {
     private func getSearchBar() -> some View {
         return HStack {
             TextField("Input the city postcode", text: $searchText)
-                .disabled(!isZommed)
+//                .disabled(!isZommed)
                 .frame(height: searchLineHeight)
                 .padding(.leading)
                 .textFieldStyle(PlainTextFieldStyle())
@@ -59,13 +59,14 @@ struct SearchPage: View {
                 .frame(width: searchLineHeight, height: searchLineHeight)
                 .matchedGeometryEffect(id: "searching bar icon", in: animation)
                 .onTapGesture {
-                    getPostcodeData(postcode: self.searchText) {
+                    getPostcodeData(postcode: self.searchText.trimmingCharacters(in: .whitespacesAndNewlines)) {
                         if citiesVirusData.currentCityData != nil {
                             self.isDisplaying.toggle()
                         }
                     }
                 }
         }
+        .foregroundColor(.text)
         .background(searchBarBgColor)
         .border(radius: 10)
         .matchedGeometryEffect(id: "searching bar", in: animation)
@@ -86,7 +87,7 @@ struct SearchPage: View {
                     .frame(width: geometry.size.width)
                     .background(
                         Rectangle()
-                            .fill(Color.white)
+                            .fill(Color.background)
                             .edgesIgnoringSafeArea(.all)
                     )
                     .onTapGesture {

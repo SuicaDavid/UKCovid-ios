@@ -15,10 +15,10 @@ class  CitiesVirusData: ObservableObject {
     @ObservedObject var locationManager = LocationManager()
     
     public func initCitiesVirusData() {
-        startLoading()
+//        startLoading()
         self.getGeolocation()
         self.fetchCasesRank {_ in 
-            self.stopLoading()
+//            self.stopLoading()
         }
         self.fetchDeathsRank {_ in
             print("finished")
@@ -101,7 +101,7 @@ class  CitiesVirusData: ObservableObject {
         }.resume()
     }
     
-    public func fetchCaseByPostcode(postcode: String, callback: @escaping (CityData)->Void) {
+    public func fetchCaseByPostcode(postcode: String, callback: @escaping ()->Void) {
         let originUrl = Api.searchCases + "?postcode=\(postcode)"
         let escapedString = originUrl.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
         guard let url = URL(string: escapedString!) else {
@@ -116,20 +116,26 @@ class  CitiesVirusData: ObservableObject {
                     decoder.dateDecodingStrategy = .iso8601
                     let decodedResponse = try decoder.decode([CasesResult].self, from: data)
                     print("response \(decodedResponse)")
-                    let data = decodedResponse[0]
-                    DispatchQueue.main.async {
-                        self.currentCityData = CityData(
-                            areaName: data.areaName,
-                            areaCode: data.areaCode,
-                            cityCasesToday: data.newCases ?? 0,
-                            cityDeathsToday: data.newDeaths ?? 0,
-                            cityTotalCases: data.cumCases ?? 0,
-                            cityTotalDeaths: data.cumDeaths ?? 0
-                        )
-                        callback(self.currentCityData!)
+                    if decodedResponse.count > 0 {
+                        let data = decodedResponse[0]
+                        DispatchQueue.main.async {
+                            self.currentCityData = CityData(
+                                areaName: data.areaName,
+                                areaCode: data.areaCode,
+                                cityCasesToday: data.newCases ?? 0,
+                                cityDeathsToday: data.newDeaths ?? 0,
+                                cityTotalCases: data.cumCases ?? 0,
+                                cityTotalDeaths: data.cumDeaths ?? 0
+                            )
+                            callback()
+                        }
+                    } else {
+                        print("no result")
+                        callback()
                     }
                 } catch let decodeError {
                     print("Decode error: \(decodeError)")
+                    callback()
                 }
             }
         }.resume()
@@ -138,8 +144,8 @@ class  CitiesVirusData: ObservableObject {
     func getGeolocation() {
         locationManager.getPostcodeFromLocation { _ in
             if let postcode = self.locationManager.getPostcode() {
-                self.fetchCaseByPostcode(postcode: postcode) { currentCityData in
-                    self.currentCityData = currentCityData
+                self.fetchCaseByPostcode(postcode: postcode) {
+                    print("current data received")
                 }
             }
         }

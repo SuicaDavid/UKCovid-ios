@@ -33,8 +33,10 @@ struct ContentView: View {
                 }
                 if citiesVirusData.isLoading {
                     ProgressView("Loading")
+                        .foregroundColor(.text)
                         .frame(width: 180, height: 150)
                         .padding()
+                        .background(Color.background)
                         .border(radius: 10, backgroundColor: Color.white)
                 }
             }

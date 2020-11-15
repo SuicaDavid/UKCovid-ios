@@ -9,21 +9,29 @@ import SwiftUI
 
 struct HomePage: View {
     @EnvironmentObject var citiesVirusData: CitiesVirusData
+    @Environment(\.colorScheme) var colorScheme
     @State private var selectedTypeIndex: Int = 0
     private var dataList: [CityData] {
         selectedTypeIndex == 0 ? citiesVirusData.cityCasesRankList : citiesVirusData.cityDeathsRankList
     }
     
-
+    
     
     private var elementSpan: CGFloat = 10
+    private var selectedButtonTextColor: Color {
+        return colorScheme == .dark ? Color.white : Color.black
+    }
+    private var selectedButtonBgColor: Color {
+        return colorScheme == .dark ? Color.gray : Color.black
+    }
+    
     
     func getCasesSelectButton(name: String, index: Int, isExtremity: Bool = false, geometry: GeometryProxy) -> some View {
         let edge: [Edge.Set] = [.all]
         var ignoreEdge: [BorderEdge] = [.bottomLeft,.bottomRight,.topRight,.topLeft]
         var radius: CGFloat = 10
         let isSelected = (index == selectedTypeIndex)
-        let backgroundColor = (isSelected ? Color.gray : Color.white)
+        let backgroundColor = (isSelected ? Color.gray : Color.background)
         let borderColor = (isSelected ? Color.blue : Color.gray)
         if isExtremity {
             if index == 0 {
@@ -36,6 +44,7 @@ struct HomePage: View {
         }
         return HStack {
             Text(name)
+                .foregroundColor(Color.text)
                 .fontWeight(isSelected ? .bold : .none)
                 .frame(maxWidth: geometry.size.width/2)
                 .padding(.vertical,elementSpan)
@@ -63,7 +72,7 @@ struct HomePage: View {
                     Spacer()
                     Text("\(showingData)")
                 }
-                .foregroundColor(.black)
+                .foregroundColor(.text)
             }
             .buttonStyle(PlainButtonStyle())
         }
@@ -93,5 +102,6 @@ struct HomePage_Previews: PreviewProvider {
     static var previews: some View {
         HomePage()
             .environmentObject(CitiesVirusData())
+            .environment(\.colorScheme, .dark)
     }
 }

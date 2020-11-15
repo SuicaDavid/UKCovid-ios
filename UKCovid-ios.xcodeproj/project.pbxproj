@@ -24,6 +24,8 @@
 		F182151325421AA9001E2C36 /* CasesDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F182151225421AA9001E2C36 /* CasesDetail.swift */; };
 		F182151C25423C21001E2C36 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F182151B25423C21001E2C36 /* LocationManager.swift */; };
 		F18EAAE8253F624800B865FC /* SequenceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F18EAAE7253F624800B865FC /* SequenceExtension.swift */; };
+		F195A18D25619BEB00890286 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F195A18C25619BEB00890286 /* Colors.xcassets */; };
+		F195A19225619DEE00890286 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F195A19125619DEE00890286 /* ColorExtension.swift */; };
 		F1A5A5802537B52100D1E863 /* CityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A5A57F2537B52100D1E863 /* CityData.swift */; };
 		F1A5A58D25390F6A00D1E863 /* SearchPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A5A58C25390F6A00D1E863 /* SearchPage.swift */; };
 		F1D23B2625313296003663D4 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F1D23B2425313296003663D4 /* LICENSE */; };
@@ -74,6 +76,8 @@
 		F182151225421AA9001E2C36 /* CasesDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasesDetail.swift; sourceTree = "<group>"; };
 		F182151B25423C21001E2C36 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		F18EAAE7253F624800B865FC /* SequenceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceExtension.swift; sourceTree = "<group>"; };
+		F195A18C25619BEB00890286 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		F195A19125619DEE00890286 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		F1A5A57F2537B52100D1E863 /* CityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityData.swift; sourceTree = "<group>"; };
 		F1A5A58C25390F6A00D1E863 /* SearchPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPage.swift; sourceTree = "<group>"; };
 		F1D23B2425313296003663D4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -141,6 +145,7 @@
 				F127006B25312BA600597750 /* UKCovid_iosApp.swift */,
 				F127006D25312BA600597750 /* ContentView.swift */,
 				F127006F25312BA800597750 /* Assets.xcassets */,
+				F195A18C25619BEB00890286 /* Colors.xcassets */,
 				F127007425312BA800597750 /* Persistence.swift */,
 				F127007925312BA800597750 /* Info.plist */,
 				F127007625312BA800597750 /* UKCovid_ios.xcdatamodeld */,
@@ -220,6 +225,7 @@
 				F12E1B75253BA85B00FEED42 /* ViewExtension.swift */,
 				F1F57A6D253E460900394005 /* SetExtension.swift */,
 				F18EAAE7253F624800B865FC /* SequenceExtension.swift */,
+				F195A19125619DEE00890286 /* ColorExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -338,6 +344,7 @@
 				F1D23B2F2531333E003663D4 /* .gitignore in Resources */,
 				F1D23B2625313296003663D4 /* LICENSE in Resources */,
 				F127007325312BA800597750 /* Preview Assets.xcassets in Resources */,
+				F195A18D25619BEB00890286 /* Colors.xcassets in Resources */,
 				F1D23B2725313296003663D4 /* README.md in Resources */,
 				F127007025312BA800597750 /* Assets.xcassets in Resources */,
 			);
@@ -367,6 +374,7 @@
 				F1A5A58D25390F6A00D1E863 /* SearchPage.swift in Sources */,
 				F182151C25423C21001E2C36 /* LocationManager.swift in Sources */,
 				F127007525312BA800597750 /* Persistence.swift in Sources */,
+				F195A19225619DEE00890286 /* ColorExtension.swift in Sources */,
 				F182150E25420B69001E2C36 /* CityDetail.swift in Sources */,
 				F1A5A5802537B52100D1E863 /* CityData.swift in Sources */,
 				F127006E25312BA600597750 /* ContentView.swift in Sources */,
@@ -547,10 +555,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Suica.UKCovid-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -569,10 +578,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Suica.UKCovid-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
