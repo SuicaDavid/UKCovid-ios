@@ -32,12 +32,18 @@ struct ContentView: View {
                         .tag(1)
                 }
                 if citiesVirusData.isLoading {
-                    ProgressView("Loading")
-                        .foregroundColor(.text)
-                        .frame(width: 180, height: 150)
-                        .padding()
-                        .background(Color.background)
-                        .border(radius: 10, backgroundColor: Color.white)
+                    VStack {
+                        HStack { Spacer() }
+                        Spacer()
+                        ProgressView("Loading")
+                            .foregroundColor(.text)
+                            .frame(width: 180, height: 150)
+                            .padding()
+                            .background(Color.background)
+                            .border(radius: 10, backgroundColor: Color.white)
+                        Spacer()
+                    }
+                    .ignoresSafeArea(edges: .bottom)
                 }
             }
         }

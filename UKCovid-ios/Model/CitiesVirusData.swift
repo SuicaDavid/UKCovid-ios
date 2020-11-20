@@ -15,10 +15,14 @@ class  CitiesVirusData: ObservableObject {
     @ObservedObject var locationManager = LocationManager()
     
     public func initCitiesVirusData() {
-//        startLoading()
+        startLoading()
         self.getGeolocation()
-        self.fetchCasesRank {_ in 
-//            self.stopLoading()
+        self.fetchCasesRank { (_) in
+            print("fetch case data finished")
+            self.stopLoading()
+        } failure: { _ in
+            print("fetch case data fail")
+            self.stopLoading()
         }
         self.fetchDeathsRank {_ in
             print("finished")
@@ -27,13 +31,14 @@ class  CitiesVirusData: ObservableObject {
     
     public func startLoading() {
         self.isLoading = true
+
     }
     public func stopLoading() {
         self.isLoading = false
     }
     
     
-    public func fetchCasesRank(callback: @escaping ([CasesResult])->Void) {
+    public func fetchCasesRank(success: @escaping ([CasesResult])->Void, failure: @escaping((_ error:NSError) -> Void)) {
         guard let url = URL(string: Api.newCases + "?sortby=\("new_cases")&order=\(1)&numperpage=\(15)&pageno=\(1)") else {
             print("Invalid URL")
             return
@@ -58,10 +63,11 @@ class  CitiesVirusData: ObservableObject {
                                 cityTotalDeaths: casesResult.cumDeaths ?? 0
                             )
                         }
-                        callback(decodedResponse)
+                        success(decodedResponse)
                     }
                 } catch let decodeError {
                     print("Decode error: \(decodeError)")
+                    failure(decodeError as NSError)
                 }
             }
         }.resume()
