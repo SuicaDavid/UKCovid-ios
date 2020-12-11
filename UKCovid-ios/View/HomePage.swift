@@ -52,6 +52,37 @@ struct HomePage: View {
         }
         .onTapGesture {
             selectedTypeIndex = index
+            if index == 0 {
+                updateCase()
+            } else if index == -1 {
+                updateDeath()
+            }
+        }
+    }
+    
+    func updateCase() {
+        if citiesVirusData.cityCasesRankList.count == 0 {
+            citiesVirusData.startLoading()
+            citiesVirusData.fetchCasesRank { (_) in
+                print("fetch case data finished")
+                citiesVirusData.stopLoading()
+            } failure: { _ in
+                print("fetch case data fail")
+                citiesVirusData.stopLoading()
+            }
+        }
+    }
+    
+    func updateDeath() {
+        if citiesVirusData.cityDeathsRankList.count == 0 {
+            citiesVirusData.startLoading()
+            citiesVirusData.fetchDeathsRank { _ in
+                print("fetch death data finished")
+                citiesVirusData.stopLoading()
+            } failure: { _ in
+                print("fetch death data fail")
+                citiesVirusData.stopLoading()
+            }
         }
     }
     
@@ -93,6 +124,14 @@ struct HomePage: View {
                 }
                 .listStyle(InsetGroupedListStyle())
                 .navigationBarHidden(true)
+                
+                if citiesVirusData.isLoading {
+                    ProgressView("Loading")
+                        .foregroundColor(.text)
+                }
+            }
+            .onAppear {
+                self.updateCase()
             }
         }
     }

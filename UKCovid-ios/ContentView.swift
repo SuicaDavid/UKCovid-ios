@@ -31,20 +31,23 @@ struct ContentView: View {
                         }
                         .tag(1)
                 }
-                if citiesVirusData.isLoading {
-                    VStack {
-                        HStack { Spacer() }
-                        Spacer()
-                        ProgressView("Loading")
-                            .foregroundColor(.text)
-                            .frame(width: 180, height: 150)
-                            .padding()
-                            .background(Color.background)
-                            .border(radius: 10, backgroundColor: Color.white)
-                        Spacer()
-                    }
-                    .ignoresSafeArea(edges: .bottom)
-                }
+//                if citiesVirusData.isLoading {
+//                    VStack {
+//                        HStack { Spacer() }
+//                        Spacer()
+//                        ProgressView("Loading")
+//                            .foregroundColor(.text)
+//                            .frame(width: 180, height: 150)
+//                            .padding()
+//                            .background(Color.background)
+//                            .border(radius: 10, backgroundColor: Color.white)
+//                        Spacer()
+//                    }
+//                    .ignoresSafeArea(edges: .bottom)
+//                    .onTapGesture {
+//                        print("123")
+//                    }
+//                }
             }
         }
         .onAppear {

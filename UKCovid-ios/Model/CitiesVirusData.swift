@@ -9,24 +9,15 @@ import SwiftUI
 
 class  CitiesVirusData: ObservableObject {
     @Published var cityCasesRankList = [CityData]()
+    @Published var cityCasesLastUpdateTime: Date?
     @Published var cityDeathsRankList = [CityData]()
+    @Published var cityDeathLastUpdateTime: Date?
     @Published var currentCityData: CityData?
     @Published var isLoading: Bool = false
     @ObservedObject var locationManager = LocationManager()
     
     public func initCitiesVirusData() {
-        startLoading()
         self.getGeolocation()
-        self.fetchCasesRank { (_) in
-            print("fetch case data finished")
-            self.stopLoading()
-        } failure: { _ in
-            print("fetch case data fail")
-            self.stopLoading()
-        }
-        self.fetchDeathsRank {_ in
-            print("finished")
-        }
     }
     
     public func startLoading() {
@@ -63,6 +54,7 @@ class  CitiesVirusData: ObservableObject {
                                 cityTotalDeaths: casesResult.cumDeaths ?? 0
                             )
                         }
+                        self.cityCasesLastUpdateTime = Date()
                         success(decodedResponse)
                     }
                 } catch let decodeError {
@@ -73,7 +65,7 @@ class  CitiesVirusData: ObservableObject {
         }.resume()
     }
     
-    public func fetchDeathsRank(callback: @escaping ([CasesResult])->Void) {
+    public func fetchDeathsRank(success: @escaping ([CasesResult])->Void, failure: @escaping((_ error:NSError) -> Void)) {
         guard let url = URL(string: Api.newCases + "?sortby=\("new_deaths")&order=\(1)&numperpage=\(15)&pageno=\(1)") else {
             print("Invalid URL")
             return
@@ -98,10 +90,12 @@ class  CitiesVirusData: ObservableObject {
                                 cityTotalDeaths: casesResult.cumDeaths ?? 0
                             )
                         }
-                        callback(decodedResponse)
+                        self.cityDeathLastUpdateTime = Date()
+                        success(decodedResponse)
                     }
                 } catch let decodeError {
                     print("Decode error: \(decodeError)")
+                    failure(decodeError as NSError)
                 }
             }
         }.resume()
