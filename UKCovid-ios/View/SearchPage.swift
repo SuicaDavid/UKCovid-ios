@@ -15,6 +15,7 @@ struct SearchPage: View {
     @State private var isZommed: Bool = false
     @State private var searchText: String = ""
     @State private var isDisplaying: Bool = false
+    @State private var isLoading: Bool = false
     private var defaultPadding: CGFloat = 10
     private var frameWidth: CGFloat {
         isZommed ? .infinity : 300
@@ -35,9 +36,9 @@ struct SearchPage: View {
     }
     
     private func getPostcodeData(postcode: String, success: (()->Void)?) {
-        citiesVirusData.startLoading()
+        self.isLoading.toggle()
         citiesVirusData.fetchCaseByPostcode(postcode: postcode) {
-            citiesVirusData.stopLoading()
+            self.isLoading.toggle()
             success?()
         }
     }

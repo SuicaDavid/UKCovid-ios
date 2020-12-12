@@ -13,20 +13,12 @@ class  CitiesVirusData: ObservableObject {
     @Published var cityDeathsRankList = [CityData]()
     @Published var cityDeathLastUpdateTime: Date?
     @Published var currentCityData: CityData?
-    @Published var isLoading: Bool = false
     @ObservedObject var locationManager = LocationManager()
     
     public func initCitiesVirusData() {
         self.getGeolocation()
     }
     
-    public func startLoading() {
-        self.isLoading = true
-
-    }
-    public func stopLoading() {
-        self.isLoading = false
-    }
     
     
     public func fetchCasesRank(success: @escaping ([CasesResult])->Void, failure: @escaping((_ error:NSError) -> Void)) {
@@ -36,7 +28,14 @@ class  CitiesVirusData: ObservableObject {
         }
         
         let request = URLRequest(url: url)
-        URLSession.shared.dataTask(with: request) { data, response, err in
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = TimeInterval(5)
+        configuration.timeoutIntervalForResource = TimeInterval(5)
+        let session = URLSession(configuration: configuration)
+        session.dataTask(with: request) { data, response, err in
+            if let err = err { // timeout
+                failure(err as NSError)
+            }
             if let data = data {
                 do {
                     let decoder = JSONDecoder()
@@ -72,7 +71,14 @@ class  CitiesVirusData: ObservableObject {
         }
         
         let request = URLRequest(url: url)
-        URLSession.shared.dataTask(with: request) { data, response, err in
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = TimeInterval(5)
+        configuration.timeoutIntervalForResource = TimeInterval(5)
+        let session = URLSession(configuration: configuration)
+        session.dataTask(with: request) { data, response, err in
+            if let err = err { // timeout
+                failure(err as NSError)
+            }
             if let data = data {
                 do {
                     let decoder = JSONDecoder()

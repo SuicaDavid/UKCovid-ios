@@ -11,6 +11,9 @@ struct HomePage: View {
     @EnvironmentObject var citiesVirusData: CitiesVirusData
     @Environment(\.colorScheme) var colorScheme
     @State private var selectedTypeIndex: Int = 0
+    @State private var isLoading: Bool = false
+    @State private var canCasesReload: Bool = false
+    @State private var canDeathReload: Bool = false
     private var dataList: [CityData] {
         selectedTypeIndex == 0 ? citiesVirusData.cityCasesRankList : citiesVirusData.cityDeathsRankList
     }
@@ -61,29 +64,39 @@ struct HomePage: View {
     }
     
     func updateCase() {
+        self.isLoading = false
         if citiesVirusData.cityDeathLastUpdateTime == nil || citiesVirusData.cityCasesLastUpdateTime?.isNewDay() == true {
             print("update")
-            citiesVirusData.startLoading()
+            self.isLoading = true
+            self.canCasesReload = false
             citiesVirusData.fetchCasesRank { (_) in
                 print("fetch case data finished")
-                citiesVirusData.stopLoading()
+                print(citiesVirusData.cityCasesRankList.count)
+                self.isLoading = false
+                print("after update: \(isLoading) \(canCasesReload) \(canDeathReload)")
             } failure: { _ in
                 print("fetch case data fail")
-                citiesVirusData.stopLoading()
+                self.isLoading = false
+                self.canCasesReload = true
             }
         }
     }
     
     func updateDeath() {
+        self.isLoading = false
         if citiesVirusData.cityDeathLastUpdateTime == nil || citiesVirusData.cityDeathLastUpdateTime?.isNewDay() == true {
             print("update")
-            citiesVirusData.startLoading()
+            self.isLoading = true
+            self.canDeathReload = false
             citiesVirusData.fetchDeathsRank { _ in
                 print("fetch death data finished")
-                citiesVirusData.stopLoading()
+                print(citiesVirusData.cityDeathsRankList.count)
+                self.isLoading = false
+                print("after update: \(isLoading) \(canCasesReload) \(canDeathReload)")
             } failure: { _ in
                 print("fetch death data fail")
-                citiesVirusData.stopLoading()
+                self.isLoading = false
+                self.canDeathReload = true
             }
         }
     }
@@ -111,6 +124,28 @@ struct HomePage: View {
         }
         .padding(elementSpan)
     }
+    
+    private var needReload: Bool {
+        print("123")
+        print("canCasesReload: \(canCasesReload)")
+        print("canDeathReload: \(canDeathReload)")
+        if (selectedTypeIndex == 0 && canCasesReload) {
+            return true
+        } else if (selectedTypeIndex == -1 && canDeathReload) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    private func setReloadState() {
+        if selectedTypeIndex == 0 {
+            self.canCasesReload = false
+        } else if selectedTypeIndex == -1 {
+            self.canDeathReload = false
+        }
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -127,9 +162,28 @@ struct HomePage: View {
                 .listStyle(InsetGroupedListStyle())
                 .navigationBarHidden(true)
                 
-                if citiesVirusData.isLoading {
-                    ProgressView("Loading")
-                        .foregroundColor(.text)
+                if isLoading {
+                    VStack {
+                        ProgressView("Loading")
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.text)
+                    }
+                    .frame(width: 150, height: 150)
+                }
+                if needReload {
+                    VStack {
+                        Image(systemName: "goforward")
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.text)
+                        Text("Reload")
+                    }
+                    .frame(width: 150, height: 150)
+                    .onTapGesture {
+                        print("456")
+                        self.setReloadState()
+                        if selectedTypeIndex == 0 { self.updateCase()}
+                        else if selectedTypeIndex == -1 { self.updateDeath() }
+                    }
                 }
             }
             .onAppear {
