@@ -15,6 +15,7 @@
 		F127007825312BA800597750 /* UKCovid_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F127007625312BA800597750 /* UKCovid_ios.xcdatamodeld */; };
 		F127008325312BA800597750 /* UKCovid_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F127008225312BA800597750 /* UKCovid_iosTests.swift */; };
 		F127008E25312BA800597750 /* UKCovid_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F127008D25312BA800597750 /* UKCovid_iosUITests.swift */; };
+		F12735F525843D0900F0051A /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12735F425843D0900F0051A /* DateExtension.swift */; };
 		F12E1B76253BA85B00FEED42 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12E1B75253BA85B00FEED42 /* ViewExtension.swift */; };
 		F1510B55253CE4D4002C8242 /* ServerURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1510B54253CE4D4002C8242 /* ServerURL.swift */; };
 		F1510B5A253CE549002C8242 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1510B59253CE549002C8242 /* Api.swift */; };
@@ -67,6 +68,7 @@
 		F127008925312BA800597750 /* UKCovid-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UKCovid-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F127008D25312BA800597750 /* UKCovid_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UKCovid_iosUITests.swift; sourceTree = "<group>"; };
 		F127008F25312BA800597750 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F12735F425843D0900F0051A /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		F12E1B75253BA85B00FEED42 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		F1510B54253CE4D4002C8242 /* ServerURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerURL.swift; sourceTree = "<group>"; };
 		F1510B59253CE549002C8242 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				F1F57A6D253E460900394005 /* SetExtension.swift */,
 				F18EAAE7253F624800B865FC /* SequenceExtension.swift */,
 				F195A19125619DEE00890286 /* ColorExtension.swift */,
+				F12735F425843D0900F0051A /* DateExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				F127007525312BA800597750 /* Persistence.swift in Sources */,
 				F195A19225619DEE00890286 /* ColorExtension.swift in Sources */,
 				F182150E25420B69001E2C36 /* CityDetail.swift in Sources */,
+				F12735F525843D0900F0051A /* DateExtension.swift in Sources */,
 				F1A5A5802537B52100D1E863 /* CityData.swift in Sources */,
 				F127006E25312BA600597750 /* ContentView.swift in Sources */,
 				F1510B55253CE4D4002C8242 /* ServerURL.swift in Sources */,

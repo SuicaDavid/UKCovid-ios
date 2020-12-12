@@ -61,7 +61,8 @@ struct HomePage: View {
     }
     
     func updateCase() {
-        if citiesVirusData.cityCasesRankList.count == 0 {
+        if citiesVirusData.cityDeathLastUpdateTime == nil || citiesVirusData.cityCasesLastUpdateTime?.isNewDay() == true {
+            print("update")
             citiesVirusData.startLoading()
             citiesVirusData.fetchCasesRank { (_) in
                 print("fetch case data finished")
@@ -74,7 +75,8 @@ struct HomePage: View {
     }
     
     func updateDeath() {
-        if citiesVirusData.cityDeathsRankList.count == 0 {
+        if citiesVirusData.cityDeathLastUpdateTime == nil || citiesVirusData.cityDeathLastUpdateTime?.isNewDay() == true {
+            print("update")
             citiesVirusData.startLoading()
             citiesVirusData.fetchDeathsRank { _ in
                 print("fetch death data finished")
